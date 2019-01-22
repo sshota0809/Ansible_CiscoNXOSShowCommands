@@ -1,0 +1,5 @@
+---
+# vars file for nxshow
+ cmd:
+   - "show version"
+   - "show run int eth 1/13"

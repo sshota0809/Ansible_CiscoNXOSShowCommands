@@ -1,0 +1,22 @@
+---
+# tasks file for nxshow
+- name: run show version on remote devices
+  nxos_command:
+    commands:
+      - command: "{{ item }}"
+        output: text
+  register: out
+  with_items: "{{ cmd }}"
+
+- name: dict
+  set_fact:
+    show_dict: >-
+      {%- set tmpdict = {} -%}
+      {%- for i in range(out.results|length) -%}
+      {%-   set _ = tmpdict.update({out.results[i].item: out.results[i].stdout_lines}) -%}
+      {%- endfor -%}
+      {{ tmpdict }}
+
+- name: output
+  debug:
+    var: show_dict
